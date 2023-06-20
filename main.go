@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"sync"
 	"time"
+                    "log"
 )
 
 type RingIntBuffer struct {
@@ -51,6 +52,7 @@ func read(input chan<- int) {
 		_, err := fmt.Scanf("%d\n", &u)
 		if err != nil {
 			fmt.Println("Это не цифра")
+                                                            log.Println()
 		} else {
 			input <- u
 		}
@@ -84,12 +86,15 @@ func writeToConsole(r *RingIntBuffer, t *time.Ticker) {
 		buffer := r.Get()
 		if len(buffer) > 0 {
 			fmt.Println("В буффере", buffer)
+			log.Println()
 		}
 
 	}
 }
 
 func main() {
+                    
+                    log.Println()
 
 	input := make(chan int)
 	go read(input)
@@ -117,6 +122,7 @@ func main() {
 	select {
 	case sig := <-c:
 		fmt.Printf("Got %s signal. Aborting ...\n", sig)
+                                        log.Println()
 		os.Exit(0)
 	}
 
